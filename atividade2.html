@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    body {
+        margin:0;
+    }
+    .grid {
+      display: grid;
+      grid-template-rows: 50px auto auto 30px;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+      height: 100vh;
+      padding: 10px;
+      background: deepskyblue;
+    }
+    .header { grid-column: 1 / -1;
+    background: green; }
+        .box1 { background: hotpink; }
+        .box2 { background: hotpink; }
+        .box3 { background: hotpink; }
+        .item1 { background: purple; }
+        .item2 { background: purple; }
+        .item3 { background: purple; }
+        .item4 { background: purple; }
+        .item5 { background: purple; }
+        .footer { grid-column: 1 / -1;
+    background: orangered; }
+    </style>
+</head>
+<body>
+ <div class="grid">
+    <div class="header"></div>
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="item1"></div>
+    <div class="item2"></div>
+    <div class="item3"></div>
+    <div class="item4"></div>
+    <div class="item5"></div>
+    <div class="footer"></div>
+ </div>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da memória</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .memory-game {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            perspective: 1000px;
+        }
+
+        .card {
+            position: relative;
+            height: 150px;
+        }
+
+        .card-checkbox {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .card-label {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+            position: relative;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
+
+        .card-front {
+            background-color: #ddd;
+        }
+
+        .card-back {
+            background-color: #fff;
+            transform: rotateY(180deg);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Imagens para as cartas */
+        .card-back[data-image="1"] {
+            background-image: url('https://picsum.photos/id/237/200/300');
+        }
+
+        .card-back[data-image="2"] {
+            background-image: url('https://picsum.photos/id/238/200/300'); 
+        }
+
+      
+        .card-back[data-image="4"] {
+            background-image: url('https://picsum.photos/id/240/200/300');    
+        }
+
+        /* Efeito de virar a carta quando o checkbox está marcado */
+        .card-checkbox: checked + .card-label {
+            transform: rotateY(180deg);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .memory-game {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .card {
+                height: 120px;
+
+            }
+        }
+        </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>Jogo da Memória</h1>
+
+                <div class="memory-game">
+                    <!-- Primeira linha -->
+                    <div class="card">
+                        <input type="checkbox"
+id="card1" class="card-checkbox">
+                        <label for="card1"
+class="card-label">
+                   <div class="card-front"></div>
+                   <div class="card-back" data-image="1"></div>
+                                </label>
+                            </div>
+
+                            <div class="card">
+                                <input type="checkbox"
+id="card2" class="card-checkbox">
+                            <label for="card2" class="card-label">
+                                <div class="card-front"></div>
+                                <div class="card-back" data-image="1"></div>
+                                </label>
+                            </div>
+                            
+                            <div class="card">
+                                <input type="checkbox"
+ id="card3" class="card-checkbox">
+                          <label for="card3" class="card-label">
+                              <div class="card-front"></div>
+                              <div class="card-back" data-image="2"></div>
+                                </label>
+                            </div>
+                            <div class="card">
+                            <input type="checkbox">
+id="card4" class="card-checkbox">
+                           <label for="card4" class="card-label">
+                           <div class="card-front"></div>
+                           <div class="card-back" data-image="2"></div>
+                        </label>
+                    </div>
+                     
+                    <!-- Segunda linha -->
+                    <div class="card">
+                        <input type="checkbox">
+id="card5" class="card-checkbox">
+                        <label for="card5" class="card-label">
+                            <div class="card-front"></div>
+                            <div class="card-back" data-image="3"></div>
+                            </label>
+                        </div>
+
+                        <div class="card">
+                            <input type="checkbox">
+id="card6" class="card-checkbox">
+                     <label for="card6" class="card-label">
+                        <div class="card-front"></div>
+                        <div class="card-back" data-image="3"></div>
+                        </label>
+                    </div>
+
+                    <div class="card">
+                        <input type="checkbox">
+id="card7" class="card-checkbox">
+                 <label for="card7" class="card-label">
+                    <div class="card-front"></div>
+                    <div class="card-back" data-image="4"></div>
+                    </label>
+                </div>
+
+                <div class="card">
+                    <input type="checkbox">
+id="card8" class="card-checkbox">
+                    <label for="card8" class="card-label">
+                        <div class="card-front"></div>
+                        <div class="card-back" data-image="4"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Lógica para verificar pares de cartas
+                document.addEventListener('DOMContentLoaded',function() {
+                    cons cards =
+document.querySelectorAll('.card-checkbox');
+                       let checkedCards = [];
+                       let matchedPairs = 0;
+
+                       cards.forEach( card => {
+
+card.addEventListener'change', function() {
+    // Se a carta foi marcada (Virada)
+       if (this.checked) { checkedCards.push(this);
+        // Se temos duas cartas viradas
+                      if
+( checkedCards.length === 2) {
+    const card1 = checkedCards [ 0 ];
+    ]cons card2 = checkedCards [ 1 ];
+    // Pegar os data-image das cartas
+    cons image1 = card1.nextElementSibling.querySelector('.card-back').getAttribute('data-image');
+    const image2 = card2.nextElementSibling.querySelector('.card-back').getAttribute('data-image');
+    // verificar se as imagens sao iguais
+    if (image1=== image2) {
+        // Par encontrado
+        matchedPairs++;
+
+        checkedCards = [];
+
+                                 //
+        Verificar se o jogo acabou
+                                    if
+        (matchedPairs === 4) {
+            setTimeout(() => {
+
+alert('Parabéns! Voce completou o jogo!');
+                                                  },
+500);
+                                                }
+                                             } else {
+                                                // Nao é um par, virar as cartas de volta
+    setTimeout(()  => {
+
+        card1.checked = false;
+        card2.checked = false;
+
+        checkedCards = [];
+                                                                                }, 1000);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                             });
+                                                        });    
+                                                    });
+                                              </script>
+                                            </body>
+                                            </html>
+                
+
+
+
+
+
+
+
+
+
+                                
+
+
+        </body>
+
+
+
+        
+        
+</head>
+<body>
+    
+</body>
+</html>
